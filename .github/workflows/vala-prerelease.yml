@@ -1,4 +1,7 @@
-on: [push]
+on:
+  push:
+    branches: 
+      - "master"
 
 jobs:
   build:
@@ -16,4 +19,13 @@ jobs:
     - uses: elementary/actions/vala-lint@master
       with:
         conf: .vala-lint.conf
-        fail: false
+        fail: true
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Development Build"
+        files: |
+          LICENSE.md
+          build/src/vala-language-server
